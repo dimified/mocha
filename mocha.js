@@ -2746,8 +2746,14 @@
       root.appendChild(header);
 
       on(window, 'keydown', function (e) {
-        if (e.keyCode === 461) {
+        if (e.keyCode === 461 || e.keyCode === 13) {
           window.history.back();
+        }
+        if (e.keyCode === 38) {
+            window.scrollBy(0, -50);
+        }
+        if (e.keyCode === 40) {
+            window.scrollBy(0, 50);
         }
       });
 
