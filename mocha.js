@@ -2706,7 +2706,10 @@
         , stack = [report]
         , progress
         , ctx
-        , root = document.getElementById('mocha');
+        , header = document.createElement('header')
+        , body = document.getElementsByTagName('body')[0]
+        , root = document.getElementById('mocha')
+        , back = document.createElement('button');
 
       if (canvas.getContext) {
         var ratio = window.devicePixelRatio || 1;
@@ -2722,7 +2725,7 @@
       if (!root) return error('#mocha div missing, add it to your document');
 
       // pass toggle
-      on(passesLink, 'click', function(){
+      on(passesLink, 'click', function() {
         unhide();
         var name = /pass/.test(report.className) ? '' : ' pass';
         report.className = report.className.replace(/fail|pass/g, '') + name;
@@ -2735,6 +2738,22 @@
         var name = /fail/.test(report.className) ? '' : ' fail';
         report.className = report.className.replace(/fail|pass/g, '') + name;
         if (report.className.trim()) hideSuitesWithout('test fail');
+      });
+
+      back.innerHTML = 'Back';
+      back.setAttribute('autofocus', 'autofocus');
+      header.appendChild(back);
+      root.appendChild(header);
+
+      on(window, 'keydown', function (e) {
+        if (e.keyCode === 461) {
+          window.history.back();
+        }
+      });
+
+      on(back, 'click', function () {
+        window.history.back();
+        back.removeEventListener('click');
       });
 
       root.appendChild(stat);
